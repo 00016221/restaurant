@@ -1,13 +1,4 @@
-ul.food__list.w-full.flex.justify-center.gap-4.flex-wrap
-    li.food__items.w-56
-        .food__card.w-full.p-8.border.rounded-xl
-            h3.food__name.text-bold.text-3xl.text-center.mb-10 Food Name
-            p.food__time Time ordered: 15.00
-            p.food__state Status: Ready
-            p.food__table-id Table number: 1
-            .btn-wrapper.mt-5.flex.justify-between
-              button(class="btn_delete border-2 border-red-600 bg-red-600 py-2 px-3 rounded-md hover:bg-white hover:text-red-600 duration-300") Delete
-              button(class="btn_update border-2 border-green-600 bg-green-600 py-2 px-3 rounded-md hover:bg-white hover:text-green-600 duration-300") Update
+
 
 script.
   document.addEventListener('DOMContentLoaded', function() {
@@ -45,25 +36,16 @@ script.
         const tableNumber = findElement(".food__table-id", template);
         tableNumber.textContent = `Table number: ${foodData.tableId}`;
 
-        const btnDelete = findElement(".btn_delete", template);
-        btnDelete.id = o.id;
+        const btnUpdate = findElement(".btn_update", template);
+        btnUpdate.id = o.id;
 
         fragment.appendChild(template);
 
         template.addEventListener("click", function(e){
-          if (e.target.className.includes("btn_delete")) {
-            const foodId = e.target.id;
-
-            axios
-            .delete(`/api/order/${foodId}`)
-            .then(function(response) {
-              alert('Deleted successfully', response);
-              location.href = '/'
-            })
-            .catch(function(error) {
-              alert('Error deleting ticket: ' + error);
-            });
+          if (e.target.className.includes("btn_update")) {
+            console.log(e.target.id)
           }
+
         })
       })
 

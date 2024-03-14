@@ -4,6 +4,9 @@ const express = require("express");
 // parse request body to json
 const body_parser = require("body-parser");
 
+// Load environment variables from a .env file into process.env
+require("dotenv").config();
+
 // for File IO
 const path = require("path");
 
@@ -35,24 +38,5 @@ app.use((req, res) => {
   res.redirect("/");
 });
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
-
-// require('dotenv').config()
-// const path = require('path')
-
-// const express = require('express')
-
-// const api_router = require('./router/api')
-
-// const app = express()
-
-// app.use(express.json())
-
-// app.use('/api', api_router)
-
-// const port = process.env.PORT || 3000
-
-// app.listen(port, ()=>{
-//     console.log('app running at port: ' + port)
-// })

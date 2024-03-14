@@ -1,7 +1,12 @@
 [
-  {
-    "id": 1708933437218,
-    "username": "admin",
-    "password": "$2a$10$S6Nu.UfyKumqWnicn0GiBeBz57uY6TnX3hJuPrmRZPTphqzCa1C.y"
-  }
+    {
+        "id": 1710419050657,
+        "username": "chief",
+        "password": "$2a$10$qJNHB7fQvptxojWy6t8CI.qZ5M40qB1.cWTw2uwTwgrq1EXEw5GM2"
+    },
+    {
+        "id": 1710419199557,
+        "username": "waiter",
+        "password": "$2a$10$iI6uW7yu9/I7Yat2KyWik.uvS5IbccoKccG/fLRN8fttzq0W.MEK6"
+    }
 ]

@@ -1,0 +1,78 @@
+ul.food__list.w-full.flex.justify-center.gap-4.flex-wrap
+    li.food__items.w-56
+        .food__card.w-full.p-8.border.rounded-xl
+            h3.food__name.text-bold.text-3xl.text-center.mb-10 Food Name
+            p.food__time Time ordered: 15.00
+            p.food__state Status: Ready
+            p.food__table-id Table number: 1
+            .btn-wrapper.mt-5.flex.justify-between
+              button(class="btn_delete border-2 border-red-600 bg-red-600 py-2 px-3 rounded-md hover:bg-white hover:text-red-600 duration-300") Delete
+              button(class="btn_update border-2 border-green-600 bg-green-600 py-2 px-3 rounded-md hover:bg-white hover:text-green-600 duration-300") Update
+
+script.
+  document.addEventListener('DOMContentLoaded', function() {
+    function findElement(element, parent = document) {
+      return parent.querySelector(element);
+    }
+    axios
+    .get('/api/order')
+    .then(function(response) {
+      // Foods
+      orders = response.data 
+
+      const elFoodsList = findElement(".food__list");
+      const elFoodsListItems = findElement(".food__items");
+      elFoodsList.innerHTML = null;
+
+
+      const fragment = document.createDocumentFragment();
+
+      //- Render the data 
+      orders.forEach(o => {
+        foodData = o.order;
+
+        const template = elFoodsListItems.cloneNode(true)
+
+        const name = findElement(".food__name", template);
+        name.textContent = foodData.foodName;
+
+        const time = findElement(".food__time", template);
+        time.textContent = `Time ordered: ${foodData.orderedTime}`;
+
+        const state = findElement(".food__state", template);
+        state.textContent = `State: ${foodData.foodState}`;
+
+        const tableNumber = findElement(".food__table-id", template);
+        tableNumber.textContent = `Table number: ${foodData.tableId}`;
+
+        const btnDelete = findElement(".btn_delete", template);
+        btnDelete.id = o.id;
+
+        const btnUpdate = findElement(".btn_delete", template);
+        btnUpdate.id = o.id;
+
+        fragment.appendChild(template);
+
+        template.addEventListener("click", function(e){
+          if (e.target.className.includes("btn_delete")) {
+            const foodId = e.target.id;
+
+            axios
+            .delete(`/api/order/${foodId}`)
+            .then(function(response) {
+              alert('Deleted successfully', response);
+              location.href = '/waiter'
+            })
+            .catch(function(error) {
+              alert('Error deleting ticket: ' + error);
+            });
+          }
+        })
+      })
+
+      elFoodsList.appendChild(fragment)
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  });

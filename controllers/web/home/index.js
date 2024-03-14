@@ -4,14 +4,8 @@ const home_controller = {
   index: async (req, res) => {
     res.render("home");
   },
-  add: async (req, res) => {
-    res.render("chief/chief", { mode: "Add" });
-  },
-  login: async (req, res) => {
-    res.render("authentication/login");
-  },
-  registration: async (req, res) => {
-    res.render("authentication/registration");
+  waiter: async (req, res) => {
+    res.render("home/waiter");
   },
   update: async (req, res) => {
     const orderData = await order_service.getById(req.params.id);

@@ -14,6 +14,10 @@ router.get("/", (req, res) => {
   order_controller.getAll(req, res);
 });
 
+router.get("/:id", (req, res) => {
+  order_controller.getById(req, res);
+});
+
 router.post("/", addOrderValidation(), (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

@@ -28,12 +28,14 @@ const auth_controller = {
 
     const user = user_service.findUserByName(username);
 
+    if (!user) return res.status(400).send("username or password is incorrect");
+
     const comparedPassword = await auth_service.compare(
       password,
       user.password
     );
 
-    if (!user || !comparedPassword)
+    if (!comparedPassword)
       return res.status(400).send("username or password is incorrect");
 
     const accessToken = await auth_service.access_token(user.username);

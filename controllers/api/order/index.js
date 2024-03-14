@@ -6,6 +6,9 @@ const order_controller = {
   getAll(req, res) {
     res.json(order_service.getAll());
   },
+  getById(req, res) {
+    res.json(order_service.getById(req.params.id));
+  },
   create(req, res) {
     res.status(201).json(order_service.create(req, res));
   },
