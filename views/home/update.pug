@@ -1,0 +1,54 @@
+//- Add new food form
+.blur.w-full.h-full.backdrop-blur-sm.absolute.top-0.hidden
+div(class="add-form w-1/5 p-10 bg-[#0f172a] border-2 rounded-lg shadow-lg shadow-white duration-300 absolute right-0 top-0 translate-y-1/2 translate-x-[125%] ")
+    h1.font-bold.text-bold.text-center.text-xl.mb-5 Add new
+
+    ul.mb-10
+        li.mb-3
+            label.form__label(for="foodName") Food name
+            input.form__control.border.border-black.p-1.rounded.mb-3.text-black.outline-none(type="text", id="foodName", name="foodName", required)
+
+        li.mb-3
+            label.form__label(for="tableNumber") Table Number
+            input.form__control.p-1.rounded.text-black.outline-none(type="number", min="1" id="tableNumber", name="tableNumber", required)
+
+    button(class="btn_add py-2 px-6 bg-green-600 border-2 border-green-600 hover:bg-white hover:text-green-600 duration-300 rounded active:scale-110", title="add", type="button") Add
+
+
+script.
+  document.addEventListener('DOMContentLoaded', function() {
+    function findElement(element, parent = document) {
+      return parent.querySelector(element);
+    }
+
+    //- Add new food
+    const elAddBtn = findElement(".btn_add")
+    elAddBtn.addEventListener("click", function(e) {
+      const inputName = findElement("#foodName")
+      const inputTabNumber = findElement("#tableNumber")
+      
+      const time = new Date()
+      const orderedTime = `${time.getHours()}:${time.getMinutes()}`
+      const foodData = {
+        foodName: inputName.value,
+        orderedTime: orderedTime,
+        foodState: 'processing',
+        tableId: inputTabNumber.value,
+      };
+
+      axios
+      .post('/api/ticket', foodData)
+      .then(response => {
+        alert('Success!');
+        location.href = '/'
+      })
+      .catch(error => {
+        if(error.response)
+          alert(JSON.stringify(error.response.data.errors))
+        else
+          alert(error)
+      });
+    })
+  });
+
+

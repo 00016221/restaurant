@@ -1,0 +1,41 @@
+include ../head.pug
+body.text-white
+  header.mb-40
+    .container.mx-auto.my-4
+      h1.text-5xl.font-bold.text-center List of Orders
+      .flex.justify-end
+        button(class="add-btn py-2 px-6 bg-green-600 border-2 border-green-600 hover:bg-white hover:text-green-600 duration-300 rounded active:scale-110", type="button") Add New
+  main
+    section
+      .container.mx-auto
+        //- list of foods
+        include ./orderlist.pug
+
+        //- Add form
+        include ./add.pug
+
+//- Render all list of foods
+script.
+  document.addEventListener('DOMContentLoaded', function() {
+    function findElement(element, parent = document) {
+      return parent.querySelector(element);
+    }
+
+
+    //- Add btn animation
+    const elAddBtnAnimation = findElement(".add-btn")
+    elAddBtnAnimation.addEventListener("click", function(e) {
+      const elAddForm = findElement(".add-form")
+      const elBlur = findElement(".blur")
+
+      elAddForm.classList.toggle("show")
+      elBlur.classList.toggle("hidden")
+      if(elAddForm.className.includes("show")) {
+        elAddForm.style.transform = "translate(-75%, 50%)"
+      } else {
+        elAddForm.style.transform = "translate(125%, 50%)"
+      }
+    })
+  });
+
+
