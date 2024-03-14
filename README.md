@@ -100,3 +100,5 @@ password: waiter12345 this opens the waiter page
 
 username: chief
 password: chief12345 this open the cooks page
+
+Unfortunately I couldn't implent update order in the waiter side. But update is implemented in chief side

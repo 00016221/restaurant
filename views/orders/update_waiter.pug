@@ -1,0 +1,95 @@
+//- Add new food form
+.blur.w-full.h-full.backdrop-blur-sm.absolute.top-0.hidden
+div(class="add-form w-1/5 p-10 bg-[#0f172a] border-2 rounded-lg shadow-lg shadow-white duration-300 absolute right-0 top-0 translate-y-1/2 translate-x-[125%] ")
+  h1.font-bold.text-bold.text-center.text-xl.mb-5 Add new
+
+  ul.mb-4
+    li.flex.flex-col
+      label.form__label(for="foodName") Food name
+      input.form__control.border.border-black.p-1.rounded.mb-3.text-black.outline-non(type="text", id="foodName", name="foodName", required)
+      p.name-error.text-red-600.invisible Food name cannot be empty
+
+    li.flex.flex-col
+      label.form__label(for="tableNumber") Table Number
+      input.form__control.p-1.rounded.text-black.outline-none.mb-3(type="text", min="1" id="tableNumber", name="tableNumber", required)
+      p.table-error.text-red-600.invisible 
+
+  button(class="btn_update py-2 px-6 bg-green-600 border-2 border-green-600 hover:bg-white hover:text-green-600 duration-300 rounded active:scale-110", title="add", type="button") Update
+
+
+script.
+  function findElement(element, parent = document) {
+    return parent.querySelector(element);
+  }
+    
+  //- Add new food
+  const elUpdateBtn = findElement(".btn_update")
+  elUpdateBtn.addEventListener("click", function(e) {
+    const inputName = findElement("#foodName")
+    const nameError = findElement(".name-error")
+    const name = inputName.value.trim()
+
+    const inputTabNumber = findElement("#tableNumber")
+    const tableError = findElement(".table-error")
+    const tableNumber = inputTabNumber.value.trim()
+
+    //- Form validation
+    if (name == "") {
+      nameError.classList.remove('invisible')
+
+      //- Clear the error message
+      setTimeout(function() {
+          nameError.classList.add('invisible')
+      }, 3000);
+      return;
+    } 
+      
+    if (tableNumber == "") {
+      tableError.classList.remove('invisible')
+      tableError.textContent = "Table number cannot be empty"
+
+      //- Clear the error message
+      setTimeout(function() {
+          tableError.classList.add('invisible')
+      }, 3000);
+        return;
+    } else if (isNaN(+tableNumber)) {
+      tableError.classList.remove('invisible')
+      tableError.textContent = "Enter only number"
+
+      //- Clear the error message
+      setTimeout(function() {
+        tableError.classList.add('invisible')
+      }, 3000);
+      return;
+    }
+      
+
+    const time = new Date()
+    let minutes = time.getMinutes()
+
+    if (minutes < 10) {
+      minutes = "0" + minutes.toString()
+    }
+    const orderedTime = `${time.getHours()}:${minutes}`
+
+
+    const orderData = {
+      foodName: name,
+      orderedTime: orderedTime,
+      foodState: 'accepted',
+      tableId: tableNumber,
+    };
+
+    axios
+    .post('/api/order', orderData)
+    .then(response => {
+      window.location.href = '/waiter'
+    })
+    .catch(error => {
+      if(error.response)
+        alert(JSON.stringify(error.response.data.errors))
+      else
+        alert(error)
+    });
+  })
